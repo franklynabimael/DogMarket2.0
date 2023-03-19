@@ -24,7 +24,7 @@ public class ProductsController : ControllerBase
         // en var userManager estoy almacenando el usuario que estoy creando en mi tabla Users, uso _userManager para indicar que quiero registrar mi usuario, y se va a crear en la tabla.
         // La propiedad Password no se habia adaptado, porque no existe una propiedad en identity que se llame asi, pero usamos esa propiedad para asignarle una contrase;a al usuario, y que el usermanager la encripte y cree el usuario.
         var Product = _context.Produts.Add(product);
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync();  
         // este return es la respuesta que quiero que resulte de la operacion que esta haciendo mi endpoint CreateUser
         return Ok(Product);
     }
