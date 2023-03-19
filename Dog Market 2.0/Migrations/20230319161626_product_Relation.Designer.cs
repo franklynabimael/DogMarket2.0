@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Dog_Market_2._0.Migrations
 {
     [DbContext(typeof(DogMarketContext))]
-    [Migration("20230315003305_identity")]
-    partial class identity
+    [Migration("20230319161626_product_Relation")]
+    partial class product_Relation
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,11 +26,60 @@ namespace Dog_Market_2._0.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Dog_Market_2._0.Models.Cart", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("Carts", "DogMarketDB");
+                });
+
+            modelBuilder.Entity("Dog_Market_2._0.Models.Detail", b =>
+                {
+                    b.Property<Guid>("IdDetailPurchase")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CartId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("IdDetailPurchase");
+
+                    b.HasIndex("CartId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("Details", "DogMarketDB");
+                });
+
             modelBuilder.Entity("Dog_Market_2._0.Models.Product", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -261,6 +310,36 @@ namespace Dog_Market_2._0.Migrations
                     b.ToTable("AspNetUserTokens", "DogMarketDB");
                 });
 
+            modelBuilder.Entity("Dog_Market_2._0.Models.Cart", b =>
+                {
+                    b.HasOne("Dog_Market_2._0.Models.User", "UserCart")
+                        .WithOne("CartUser")
+                        .HasForeignKey("Dog_Market_2._0.Models.Cart", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("UserCart");
+                });
+
+            modelBuilder.Entity("Dog_Market_2._0.Models.Detail", b =>
+                {
+                    b.HasOne("Dog_Market_2._0.Models.Cart", "CartDetail")
+                        .WithMany("CartDetails")
+                        .HasForeignKey("CartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Dog_Market_2._0.Models.Product", "ProductDetail")
+                        .WithMany("ProductDetails")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CartDetail");
+
+                    b.Navigation("ProductDetail");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -309,6 +388,22 @@ namespace Dog_Market_2._0.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Dog_Market_2._0.Models.Cart", b =>
+                {
+                    b.Navigation("CartDetails");
+                });
+
+            modelBuilder.Entity("Dog_Market_2._0.Models.Product", b =>
+                {
+                    b.Navigation("ProductDetails");
+                });
+
+            modelBuilder.Entity("Dog_Market_2._0.Models.User", b =>
+                {
+                    b.Navigation("CartUser")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

@@ -11,5 +11,8 @@ public class User: IdentityUser
     public string Address { get; set; }
     [Required]
     public int Age { get; set; }
+    public Cart CartUser { get; set; }
+    public ICollection<Purchase> PurchaseUser { get; set; }
+
 }
 
