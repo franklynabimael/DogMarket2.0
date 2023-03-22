@@ -6,7 +6,7 @@ namespace Dog_Market_2._0.Models;
 
 public class Detail
 {
-    public Guid IdDetailPurchase { get; set; }
+    public Guid Id { get; set; }
     public decimal Price { get; set; }
     public int Quantity { get; set; }
 

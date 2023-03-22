@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Dog_Market_2._0.Migrations
 {
     /// <inheritdoc />
-    public partial class product_Relation : Migration
+    public partial class purchase : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -209,7 +209,30 @@ namespace Dog_Market_2._0.Migrations
                         principalSchema: "DogMarketDB",
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Purchases",
+                schema: "DogMarketDB",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Tax = table.Column<float>(type: "real", nullable: false),
+                    NumVoucher = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Purchases", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Purchases_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalSchema: "DogMarketDB",
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -217,29 +240,37 @@ namespace Dog_Market_2._0.Migrations
                 schema: "DogMarketDB",
                 columns: table => new
                 {
-                    IdDetailPurchase = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     CartId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    PurchaseId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Details", x => x.IdDetailPurchase);
+                    table.PrimaryKey("PK_Details", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Details_Carts_CartId",
                         column: x => x.CartId,
                         principalSchema: "DogMarketDB",
                         principalTable: "Carts",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Details_Produts_ProductId",
                         column: x => x.ProductId,
                         principalSchema: "DogMarketDB",
                         principalTable: "Produts",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Details_Purchases_PurchaseId",
+                        column: x => x.PurchaseId,
+                        principalSchema: "DogMarketDB",
+                        principalTable: "Purchases",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -306,6 +337,18 @@ namespace Dog_Market_2._0.Migrations
                 schema: "DogMarketDB",
                 table: "Details",
                 column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Details_PurchaseId",
+                schema: "DogMarketDB",
+                table: "Details",
+                column: "PurchaseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Purchases_UserId",
+                schema: "DogMarketDB",
+                table: "Purchases",
+                column: "UserId");
         }
 
         /// <inheritdoc />
@@ -345,6 +388,10 @@ namespace Dog_Market_2._0.Migrations
 
             migrationBuilder.DropTable(
                 name: "Produts",
+                schema: "DogMarketDB");
+
+            migrationBuilder.DropTable(
+                name: "Purchases",
                 schema: "DogMarketDB");
 
             migrationBuilder.DropTable(

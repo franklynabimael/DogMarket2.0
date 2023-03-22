@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Dog_Market_2._0.Migrations
 {
     [DbContext(typeof(DogMarketContext))]
-    [Migration("20230319161626_product_Relation")]
-    partial class product_Relation
+    [Migration("20230322002318_Categories")]
+    partial class Categories
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -44,9 +44,30 @@ namespace Dog_Market_2._0.Migrations
                     b.ToTable("Carts", "DogMarketDB");
                 });
 
+            modelBuilder.Entity("Dog_Market_2._0.Models.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categories", "DogMarketDB");
+                });
+
             modelBuilder.Entity("Dog_Market_2._0.Models.Detail", b =>
                 {
-                    b.Property<Guid>("IdDetailPurchase")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -59,14 +80,19 @@ namespace Dog_Market_2._0.Migrations
                     b.Property<Guid>("ProductId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("PurchaseId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.HasKey("IdDetailPurchase");
+                    b.HasKey("Id");
 
                     b.HasIndex("CartId");
 
                     b.HasIndex("ProductId");
+
+                    b.HasIndex("PurchaseId");
 
                     b.ToTable("Details", "DogMarketDB");
                 });
@@ -76,6 +102,9 @@ namespace Dog_Market_2._0.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Code")
                         .IsRequired()
@@ -97,7 +126,35 @@ namespace Dog_Market_2._0.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CategoryId");
+
                     b.ToTable("Produts", "DogMarketDB");
+                });
+
+            modelBuilder.Entity("Dog_Market_2._0.Models.Purchase", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("NumVoucher")
+                        .HasColumnType("int");
+
+                    b.Property<float>("Tax")
+                        .HasColumnType("real");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Purchases", "DogMarketDB");
                 });
 
             modelBuilder.Entity("Dog_Market_2._0.Models.User", b =>
@@ -315,7 +372,7 @@ namespace Dog_Market_2._0.Migrations
                     b.HasOne("Dog_Market_2._0.Models.User", "UserCart")
                         .WithOne("CartUser")
                         .HasForeignKey("Dog_Market_2._0.Models.Cart", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("UserCart");
@@ -326,18 +383,48 @@ namespace Dog_Market_2._0.Migrations
                     b.HasOne("Dog_Market_2._0.Models.Cart", "CartDetail")
                         .WithMany("CartDetails")
                         .HasForeignKey("CartId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Dog_Market_2._0.Models.Product", "ProductDetail")
                         .WithMany("ProductDetails")
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Dog_Market_2._0.Models.Purchase", "PurchaseDetail")
+                        .WithMany("PurchaseDetails")
+                        .HasForeignKey("PurchaseId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("CartDetail");
 
                     b.Navigation("ProductDetail");
+
+                    b.Navigation("PurchaseDetail");
+                });
+
+            modelBuilder.Entity("Dog_Market_2._0.Models.Product", b =>
+                {
+                    b.HasOne("Dog_Market_2._0.Models.Category", "ProductCategory")
+                        .WithMany("CategoryProduct")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("ProductCategory");
+                });
+
+            modelBuilder.Entity("Dog_Market_2._0.Models.Purchase", b =>
+                {
+                    b.HasOne("Dog_Market_2._0.Models.User", "UserPurchase")
+                        .WithMany("PurchaseUser")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("UserPurchase");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -396,15 +483,27 @@ namespace Dog_Market_2._0.Migrations
                     b.Navigation("CartDetails");
                 });
 
+            modelBuilder.Entity("Dog_Market_2._0.Models.Category", b =>
+                {
+                    b.Navigation("CategoryProduct");
+                });
+
             modelBuilder.Entity("Dog_Market_2._0.Models.Product", b =>
                 {
                     b.Navigation("ProductDetails");
+                });
+
+            modelBuilder.Entity("Dog_Market_2._0.Models.Purchase", b =>
+                {
+                    b.Navigation("PurchaseDetails");
                 });
 
             modelBuilder.Entity("Dog_Market_2._0.Models.User", b =>
                 {
                     b.Navigation("CartUser")
                         .IsRequired();
+
+                    b.Navigation("PurchaseUser");
                 });
 #pragma warning restore 612, 618
         }

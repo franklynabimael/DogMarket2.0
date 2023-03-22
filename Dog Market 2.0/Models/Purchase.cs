@@ -11,6 +11,4 @@ public class Purchase
     public User UserPurchase { get; set; }
     public string UserId { get; set; }
     public ICollection<Detail> PurchaseDetails { get; set; }
-
-
 }

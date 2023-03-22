@@ -9,5 +9,6 @@ public class Product
     public int Stock { get; set;}
     public string Code { get; set; }
     public ICollection<Detail> ProductDetails { get; set; }
-
+    public Category ProductCategory { get; set; }
+    public int CategoryId { get; set; }
 }

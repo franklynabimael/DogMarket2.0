@@ -13,6 +13,5 @@ public class User: IdentityUser
     public int Age { get; set; }
     public Cart CartUser { get; set; }
     public ICollection<Purchase> PurchaseUser { get; set; }
-
 }
 

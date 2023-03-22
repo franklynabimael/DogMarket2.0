@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Dog_Market_2._0.Migrations
 {
     [DbContext(typeof(DogMarketContext))]
-    [Migration("20230319164707_Purchase_Relations1")]
-    partial class Purchase_Relations1
+    [Migration("20230322000127_purchase")]
+    partial class purchase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -46,7 +46,7 @@ namespace Dog_Market_2._0.Migrations
 
             modelBuilder.Entity("Dog_Market_2._0.Models.Detail", b =>
                 {
-                    b.Property<Guid>("IdDetailPurchase")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -65,7 +65,7 @@ namespace Dog_Market_2._0.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.HasKey("IdDetailPurchase");
+                    b.HasKey("Id");
 
                     b.HasIndex("CartId");
 
@@ -346,7 +346,7 @@ namespace Dog_Market_2._0.Migrations
                     b.HasOne("Dog_Market_2._0.Models.User", "UserCart")
                         .WithOne("CartUser")
                         .HasForeignKey("Dog_Market_2._0.Models.Cart", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("UserCart");
@@ -357,19 +357,19 @@ namespace Dog_Market_2._0.Migrations
                     b.HasOne("Dog_Market_2._0.Models.Cart", "CartDetail")
                         .WithMany("CartDetails")
                         .HasForeignKey("CartId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Dog_Market_2._0.Models.Product", "ProductDetail")
                         .WithMany("ProductDetails")
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Dog_Market_2._0.Models.Purchase", "PurchaseDetail")
                         .WithMany("PurchaseDetails")
                         .HasForeignKey("PurchaseId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("CartDetail");
@@ -384,7 +384,7 @@ namespace Dog_Market_2._0.Migrations
                     b.HasOne("Dog_Market_2._0.Models.User", "UserPurchase")
                         .WithMany("PurchaseUser")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("UserPurchase");

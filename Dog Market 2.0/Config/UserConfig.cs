@@ -13,5 +13,9 @@ public class UserConfig : IEntityTypeConfiguration<User>
             .WithOne(x => x.UserCart)
             .HasForeignKey<Cart>(x => x.UserId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasMany(x => x.PurchaseUser)
+            .WithOne(x => x.UserPurchase)
+            .HasForeignKey(x => x.UserId);
     }
 }

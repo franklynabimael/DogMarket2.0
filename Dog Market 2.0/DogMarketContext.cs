@@ -13,18 +13,26 @@ public class DogMarketContext : IdentityDbContext<User>
         Carts = Set<Cart>();
         Details = Set<Detail>();
         Purchases = Set<Purchase>();
+        Categories = Set<Category>();
     }
 
     public DbSet<Product> Produts { get; }
     public DbSet<Cart> Carts { get; }
     public DbSet<Detail> Details { get; }
     public DbSet<Purchase> Purchases { get; }
+    public DbSet<Category> Categories { get; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(DogMarketContext).Assembly);
         modelBuilder.HasDefaultSchema(DefaultSchema);
         modelBuilder.Entity<User>();
+
+        // Configure the default delete behavior for relationships
+        foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+        {
+            relationship.DeleteBehavior = DeleteBehavior.Restrict;
+        }
         base.OnModelCreating(modelBuilder);
     }
 }
