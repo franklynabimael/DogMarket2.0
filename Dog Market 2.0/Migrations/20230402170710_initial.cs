@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Dog_Market_2._0.Migrations
 {
     /// <inheritdoc />
-    public partial class purchase : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -59,20 +59,18 @@ namespace Dog_Market_2._0.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Produts",
+                name: "Categories",
                 schema: "DogMarketDB",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Stock = table.Column<int>(type: "int", nullable: false),
-                    Code = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Produts", x => x.Id);
+                    table.PrimaryKey("PK_Categories", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -209,7 +207,7 @@ namespace Dog_Market_2._0.Migrations
                         principalSchema: "DogMarketDB",
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -232,7 +230,32 @@ namespace Dog_Market_2._0.Migrations
                         principalSchema: "DogMarketDB",
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Produts",
+                schema: "DogMarketDB",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Stock = table.Column<int>(type: "int", nullable: false),
+                    Code = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CategoryId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Produts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Produts_Categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalSchema: "DogMarketDB",
+                        principalTable: "Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -245,7 +268,7 @@ namespace Dog_Market_2._0.Migrations
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     CartId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    PurchaseId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    PurchaseId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -256,21 +279,20 @@ namespace Dog_Market_2._0.Migrations
                         principalSchema: "DogMarketDB",
                         principalTable: "Carts",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Details_Produts_ProductId",
                         column: x => x.ProductId,
                         principalSchema: "DogMarketDB",
                         principalTable: "Produts",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Details_Purchases_PurchaseId",
                         column: x => x.PurchaseId,
                         principalSchema: "DogMarketDB",
                         principalTable: "Purchases",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
@@ -345,6 +367,12 @@ namespace Dog_Market_2._0.Migrations
                 column: "PurchaseId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Produts_CategoryId",
+                schema: "DogMarketDB",
+                table: "Produts",
+                column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Purchases_UserId",
                 schema: "DogMarketDB",
                 table: "Purchases",
@@ -392,6 +420,10 @@ namespace Dog_Market_2._0.Migrations
 
             migrationBuilder.DropTable(
                 name: "Purchases",
+                schema: "DogMarketDB");
+
+            migrationBuilder.DropTable(
+                name: "Categories",
                 schema: "DogMarketDB");
 
             migrationBuilder.DropTable(

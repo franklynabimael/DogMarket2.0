@@ -9,13 +9,10 @@ public class Detail
     public Guid Id { get; set; }
     public decimal Price { get; set; }
     public int Quantity { get; set; }
-
-    public Cart CartDetail { get; set; }
-    public Guid CartId { get; set; }
-
+    public Cart? CartDetail { get; set; }
+    public Guid? CartId { get; set; }
     public Product ProductDetail { get; set; }
     public Guid ProductId { get; set; }
-    public Purchase PurchaseDetail { get; set; }
-    public Guid PurchaseId { get; set; }
-
+    public Purchase? PurchaseDetail { get; set; }
+    public Guid? PurchaseId { get; set; }
 }

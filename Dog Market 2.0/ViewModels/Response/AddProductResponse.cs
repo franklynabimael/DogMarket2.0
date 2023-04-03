@@ -1,14 +1,14 @@
-﻿namespace Dog_Market_2._0.Models;
+﻿using Dog_Market_2._0.Models;
 
-public class Product
+namespace Dog_Market_2._0.ViewModels.Response;
+
+public class AddProductResponse
 {
     public Guid Id { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }
     public decimal Price { get; set; }
-    public int Stock { get; set;}
+    public int Stock { get; set; }
     public string Code { get; set; }
-    public ICollection<Detail>? ProductDetails { get; set; }
-    public Category ProductCategory { get; set; }
     public int CategoryId { get; set; }
 }

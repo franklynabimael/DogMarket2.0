@@ -40,15 +40,14 @@ public class UsersController : ControllerBase
     [HttpPost("register")]
     public async Task<IActionResult> CreateUser(RegisterDto registerDto)
     {
-        // en var user estoy almacenando la adaptacion resultante entre el view model Registerdto y el Model User.
         var user = registerDto.Adapt<User>();
-        // en var userManager estoy almacenando el usuario que estoy creando en mi tabla Users, uso _userManager para indicar que quiero registrar mi usuario, y se va a crear en la tabla.
-        // La propiedad Password no se habia adaptado, porque no existe una propiedad en identity que se llame asi, pero usamos esa propiedad para asignarle una contrase;a al usuario, y que el usermanager la encripte y cree el usuario.
-        var userManager = await _userManager.CreateAsync(user, registerDto.Password);
-
+        user.CartUser = new Cart();
+        var result = await _userManager.CreateAsync(user, registerDto.Password);
+        if (!result.Succeeded)
+            throw new Exception("Incorrect credentials");
         await _context.SaveChangesAsync();
-        // este return es la respuesta que quiero que resulte de la operacion que esta haciendo mi endpoint CreateUser
-        return Ok(user);
+        UserResponse userResponse = user.Adapt<UserResponse>();
+        return Ok(userResponse);
     }
 
     [HttpPost("loging")] 
@@ -56,7 +55,7 @@ public class UsersController : ControllerBase
     {
         var user = await _userManager.FindByNameAsync(logingDto.UserName);
         if (user == null || !await _userManager.CheckPasswordAsync(user, logingDto.Password))
-            return Unauthorized(new LogingResponse { Message = "Invalid Authentication", IsAuthSuccessful = false });
+            return Unauthorized(new LogingResponse { Message = "Username or password incorrect", IsAuthSuccessful = false });
         var signingCredentials = _jwtHandler.GetSigningCredentials();
         var claims = _jwtHandler.GetClaims(user);
         var tokenOptions = _jwtHandler.GenerateTokenOptions(signingCredentials, claims);

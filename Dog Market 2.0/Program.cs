@@ -6,7 +6,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Reflection;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace WebApi;
 
@@ -105,14 +107,14 @@ public static class Program
     {
         services.AddIdentity<User, IdentityRole>(opts =>
         {
-            opts.Password.RequiredLength = 8;
+            opts.Password.RequiredLength = 6;
             opts.Password.RequireDigit = false;
             opts.Password.RequiredUniqueChars = 0;
             opts.Password.RequireLowercase = false;
             opts.Password.RequireNonAlphanumeric = false;
             opts.Password.RequireUppercase = false;
             opts.SignIn.RequireConfirmedEmail = false;
-            opts.User.RequireUniqueEmail = false;
+            opts.User.RequireUniqueEmail = true;
             opts.Lockout.AllowedForNewUsers = true;
         })
             .AddEntityFrameworkStores<DogMarketContext>()

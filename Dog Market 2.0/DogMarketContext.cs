@@ -28,11 +28,6 @@ public class DogMarketContext : IdentityDbContext<User>
         modelBuilder.HasDefaultSchema(DefaultSchema);
         modelBuilder.Entity<User>();
 
-        // Configure the default delete behavior for relationships
-        foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
-        {
-            relationship.DeleteBehavior = DeleteBehavior.Restrict;
-        }
         base.OnModelCreating(modelBuilder);
     }
 }

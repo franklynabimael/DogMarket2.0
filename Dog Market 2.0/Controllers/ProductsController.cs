@@ -1,10 +1,12 @@
 ﻿using Dog_Market_2._0.JwtFeatures;
 using Dog_Market_2._0.Models;
 using Dog_Market_2._0.ViewModels;
+using Dog_Market_2._0.ViewModels.Response;
 using Mapster;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Dog_Market_2._0.Controllers;
 [Route("api/[controller]")]
@@ -12,21 +14,43 @@ namespace Dog_Market_2._0.Controllers;
 public class ProductsController : ControllerBase
 {
     private readonly DogMarketContext _context;
-    public ProductsController(DogMarketContext context) { 
+    public ProductsController(DogMarketContext context) {
         _context = context;
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetProducts()
+    {
+        IEnumerable<Product> products = await _context.Produts.ToListAsync();
+        IEnumerable<ProductsResponses> productsResponses = products.Adapt<IEnumerable<ProductsResponses>>();
+        return Ok(productsResponses);
+    }
+
+    [HttpGet("{productId}")]
+    public async Task <IActionResult> GetProduct(Guid productId)
+    {
+        Product product = await _context.Produts.FirstOrDefaultAsync(x => x.Id == productId)??throw new ArgumentNullException(nameof(productId), "No se encontro");
+        ProductResponse response = product.Adapt<ProductResponse>();
+        return Ok(response);
     }
 
     [HttpPost("add")]
     public async Task<IActionResult> AddProducts(AddProductDTO addProductDTO)
     {
-        // en var user estoy almacenando la adaptacion resultante entre el view model Registerdto y el Model User.
         var product = addProductDTO.Adapt<Product>();
-        // en var userManager estoy almacenando el usuario que estoy creando en mi tabla Users, uso _userManager para indicar que quiero registrar mi usuario, y se va a crear en la tabla.
-        // La propiedad Password no se habia adaptado, porque no existe una propiedad en identity que se llame asi, pero usamos esa propiedad para asignarle una contrase;a al usuario, y que el usermanager la encripte y cree el usuario.
-        var Product = _context.Produts.Add(product);
-        await _context.SaveChangesAsync();  
-        // este return es la respuesta que quiero que resulte de la operacion que esta haciendo mi endpoint CreateUser
-        return Ok(Product);
+        _context.Produts.Add(product);
+        await _context.SaveChangesAsync();
+        AddProductResponse productResponse = product.Adapt<AddProductResponse>();
+        return Ok(productResponse);
+    }
+
+    [HttpDelete("{productId}")]
+    public async Task<IActionResult> DeleteProduct(Guid productId)
+    {
+        Product product = await _context.Produts.FindAsync(productId)?? throw new ArgumentNullException(nameof(productId), "No se encontro");
+        _context.Produts.Remove(product);
+        await _context.SaveChangesAsync();
+        return Ok();
     }
 
 }
