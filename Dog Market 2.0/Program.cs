@@ -1,11 +1,15 @@
 using Dog_Market_2._0;
 using Dog_Market_2._0.JwtFeatures;
 using Dog_Market_2._0.Models;
+using Dog_Market_2._0.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Serilog;
 using System.Reflection;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -23,6 +27,8 @@ public static class Program
         AddSwagger(builder);
         AddIdentity(builder.Services, builder.Configuration);
         AddJwtTokenAuthentication(builder.Services, builder.Configuration);
+        AddFileManager(builder);
+        AddScopes(builder);
 
         builder.Services.AddDbContext<DogMarketContext>(options =>
                     options.UseSqlServer(builder.Configuration.GetConnectionString(SqlConnectionString)));
@@ -41,6 +47,13 @@ public static class Program
             app.UseSwaggerUI();
         }
 
+        app.UseStaticFiles();
+        app.UseStaticFiles(new StaticFileOptions()
+        {
+            FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Resources")),
+            RequestPath = new PathString("/Resources")
+        });
+
         app.UseHttpsRedirection();
         app.UseRouting();
         app.MapControllers();
@@ -52,6 +65,26 @@ public static class Program
         context.Database.Migrate();
 
         app.Run();
+    }
+
+    private static void AddScopes(WebApplicationBuilder builder)
+    {
+        builder.Services.AddScoped<IFileServices, FileService>();
+    }
+
+    private static void AddFileManager(WebApplicationBuilder builder)
+    {
+        builder.Services.Configure<FormOptions>(o =>
+        {
+            o.ValueLengthLimit = int.MaxValue;
+            o.MultipartBodyLengthLimit = int.MaxValue;
+            o.MemoryBufferThreshold = int.MaxValue;
+        });
+
+        builder.Host.UseSerilog((hostBuilderCtx, loggerConf) =>
+        {
+            loggerConf.WriteTo.Console().WriteTo.Debug().ReadFrom.Configuration(hostBuilderCtx.Configuration);
+        });
     }
 
     private static void AddSwagger(WebApplicationBuilder builder)

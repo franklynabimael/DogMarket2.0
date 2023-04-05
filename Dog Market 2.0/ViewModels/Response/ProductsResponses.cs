@@ -5,4 +5,5 @@ public class ProductsResponses
     public Guid Id { get; set; }
     public string Name { get; set; }
     public decimal Price { get; set; }
+    public string? ImgPath { get; set; }
 }

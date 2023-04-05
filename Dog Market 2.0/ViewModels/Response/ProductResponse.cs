@@ -11,4 +11,5 @@ public class ProductResponse
     public int Stock { get; set; }
     public string Code { get; set; }
     public int CategoryId { get; set; }
+    public string? ImgPath { get; set; }
 }

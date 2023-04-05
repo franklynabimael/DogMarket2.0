@@ -11,4 +11,5 @@ public class Product
     public ICollection<Detail>? ProductDetails { get; set; }
     public Category ProductCategory { get; set; }
     public int CategoryId { get; set; }
+    public string? ImgPath { get; set; }
 }
