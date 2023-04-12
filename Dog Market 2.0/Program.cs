@@ -19,6 +19,7 @@ namespace WebApi;
 public static class Program
 {
     private const string SqlConnectionString = "SqlServerConnection";
+    private const string OriginsKey = "Origins";
     public static void Main(string[] args)
     {
 
@@ -29,6 +30,7 @@ public static class Program
         AddJwtTokenAuthentication(builder.Services, builder.Configuration);
         AddFileManager(builder);
         AddScopes(builder);
+        AddCors(builder);
 
         builder.Services.AddDbContext<DogMarketContext>(options =>
                     options.UseSqlServer(builder.Configuration.GetConnectionString(SqlConnectionString)));
@@ -59,12 +61,27 @@ public static class Program
         app.MapControllers();
         app.UseAuthentication();
         app.UseAuthorization();
+        app.UseCors();
 
         using var serviceScope = app.Services.CreateScope();
         using var context = serviceScope.ServiceProvider.GetService<DogMarketContext>();
         context.Database.Migrate();
 
         app.Run();
+    }
+
+    private static void AddCors(WebApplicationBuilder builder)
+    {
+        var origins = builder.Configuration.GetSection(OriginsKey).Get<string[]>();
+        builder.Services.AddCors(options =>
+        {
+            options.AddDefaultPolicy(builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyHeader()
+                       .AllowAnyMethod();
+            });
+        });
     }
 
     private static void AddScopes(WebApplicationBuilder builder)
