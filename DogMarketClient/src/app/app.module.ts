@@ -16,9 +16,10 @@ import { ToastrModule } from 'ngx-toastr';
 import { AppComponent } from './components/appcomponent/app.component';
 import { AuthenticateComponent } from './components/authenticate/authenticate.component';
 import { HomeComponent } from './components/home/home.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
 
 @NgModule({
-  declarations: [AppComponent, AuthenticateComponent, HomeComponent],
+  declarations: [AppComponent, AuthenticateComponent, HomeComponent, SidebarComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
