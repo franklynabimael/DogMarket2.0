@@ -1,0 +1,27 @@
+.toolbar {
+  background-color: #e4e4e4;
+  justify-content: space-between;
+}
+
+.Dog {
+  font-family: Montserrat;
+  font-weight: 700;
+}
+
+.TopSideNav-Right {
+  padding-right: 1rem;
+  justify-content: flex-end;
+}
+
+.ProfileButton {
+  border-radius: 5px;
+  justify-content: space-between;
+  background-color: #e4e4e4;
+  box-shadow: none;
+  margin: -2rem;
+}
+span {
+  font-family: Montserrat, Medium;
+  color: #555555;
+  font-weight: 600;
+}

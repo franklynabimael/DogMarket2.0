@@ -10,7 +10,6 @@ namespace Dog_Market_2._0.Controllers;
 public class FilesController : ControllerBase
 {
     private readonly IFileServices _fileService;
-    private const string imageFolder = "Images";
 
     public FilesController(IFileServices fileService)
     {
@@ -24,7 +23,7 @@ public class FilesController : ControllerBase
         {
             var formCollection = await Request.ReadFormAsync();
             var file = formCollection.Files[0];
-            var response = await _fileService.FileManage(file, imageFolder);
+            var response = await _fileService.FileManage(file);
             if (!response.isSuccesful)
             {
                 ModelState.AddModelError("File", response.Message);

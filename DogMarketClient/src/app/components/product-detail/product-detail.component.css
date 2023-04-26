@@ -1,0 +1,22 @@
+.product-detail img {
+  max-width: 10rem;
+  max-height: 10rem;
+  width: 10rem;
+  height: 10rem;
+  margin-left: 25%;
+}
+
+.product-detail h1,
+.product-detail h3 {
+  margin-top: 1rem;
+}
+
+.product-detail .nav-tabs {
+  margin-bottom: 1rem;
+}
+
+.product-detail .tab-content {
+  border: 1px solid #ccc;
+  border-top: none;
+  padding: 1rem;
+}

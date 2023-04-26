@@ -14,8 +14,6 @@ import { UserService } from '../../services/user.service';
   styleUrls: ['./authenticate.component.css'],
 })
 export class AuthenticateComponent implements OnInit {
-  username: string;
-  password: string;
   errorMessage: any = null;
   loginForm: FormGroup;
   private returnUrl!: string;
@@ -58,10 +56,13 @@ export class AuthenticateComponent implements OnInit {
     return this.loginForm.get(controlName).hasError(errorName);
   };
 
-  onSubmit() {
-    const formData: LogingDTO = this.loginForm.value;
-
-    this.userService.postLoging(formData).subscribe({
+  loginUser = (loginFormValue: any) => {
+    const login = { ...loginFormValue };
+    const userForAuth: LogingDTO = {
+      username: login.username,
+      password: login.password,
+    };
+    this.userService.postLoging(userForAuth).subscribe({
       next: (res: Logingresponse) => {
         this.toastr.success('You are now logged in!', 'Success!', {
           timeOut: 3000,
@@ -72,11 +73,15 @@ export class AuthenticateComponent implements OnInit {
           toastClass: 'ngx-toastr',
         });
         localStorage.setItem('token', res.token);
+        console.log(res);
         this.userService.sendAuthStateChangeNotification(res.isauthsuccessful);
         this.router.navigate(['']);
       },
       error: (error: HttpErrorResponse) => {
         this.errorMessage = error.error;
+        this.router.navigate(['/login'], {
+          queryParams: { returnUrl: this.router.url },
+        });
         this.toastr.error(`${this.errorMessage.message}`, 'Error', {
           timeOut: 3000,
           enableHtml: true,
@@ -87,5 +92,5 @@ export class AuthenticateComponent implements OnInit {
         });
       },
     });
-  }
+  };
 }

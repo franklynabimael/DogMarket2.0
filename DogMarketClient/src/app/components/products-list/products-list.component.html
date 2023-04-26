@@ -1,0 +1,17 @@
+<div class="container">
+  <div class="row">
+    <div *ngFor="let product of categoryFound.categoryProducts" class="col-md-4 my-4">
+      <div class="card mb-4">
+        <img [src]="createImgPath(product.imgPath)" class="card-img-top" alt="{{ product.name }}" />
+        <div class="card-body">
+          <h5 class="card-title">{{ product.name }}</h5>
+          <p class="card-text">{{ product.description }}</p>
+          <p class="card-text">
+            <strong>{{ product.price | currency }}</strong>
+          </p>
+          <a (click)="viewDetail(product.id)" class="btn btn-primary">Ver detalles</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

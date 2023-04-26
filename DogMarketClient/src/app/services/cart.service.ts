@@ -3,23 +3,24 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { Cartresponse } from '../interfaces/responses/cartresponse';
 import { Detailsresponse } from '../interfaces/responses/detailsresponse';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CartService {
-  private urlApi = `${environment.urlApi}/CartsControllers`;
+  private urlApi = `https://localhost:7242/api/Carts`;
   constructor(private http: HttpClient) {}
-
-  getCart() {
-    return this.http.post(`${this.urlApi}/myCart`, '');
+ 
+  getCart(): Observable<Cartresponse> {
+    return this.http.get<Cartresponse>(`${this.urlApi}/myCart`);
   }
 
-  addToCart(body: Cartresponse) {
-    return this.http.post(`${this.urlApi}/{productId}`, body);
+  addToCart(productId: string, quantity: number) {
+    return this.http.get(`${this.urlApi}/${productId}/${quantity}`);
   }
 
-  deleteFromCart(body: Detailsresponse) {
-    return this.http.post(`${this.urlApi}/{detailId}`, body);
+  deleteFromCart(detailId: string) {
+    return this.http.delete(`${this.urlApi}/${detailId}`);
   }
 }

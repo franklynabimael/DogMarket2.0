@@ -2,6 +2,7 @@
 using Dog_Market_2._0.ViewModels;
 using Dog_Market_2._0.ViewModels.Response;
 using Mapster;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -35,6 +36,7 @@ public class CategoriesController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> AddCategory(AddCategoryDTO addCategoryDTO)
     {
         var category = addCategoryDTO.Adapt<Category>();

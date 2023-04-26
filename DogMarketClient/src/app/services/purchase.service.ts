@@ -7,14 +7,14 @@ import { Purchaseresponse } from '../interfaces/responses/purchaseresponse';
   providedIn: 'root',
 })
 export class PurchaseService {
-  private urlApi = `${environment.urlApi}/purchases/carts/{cartId}`;
+  private urlApi = `https://localhost:7242/api/purchase/carts`;
   constructor(private http: HttpClient) {}
 
   getPurchase() {
     return this.http.get(this.urlApi);
   }
 
-  postPurchaseAdd(body: Purchaseresponse) {
-    return this.http.post(`${this.urlApi}/purchase`, body); //ojo
+  postPurchaseAdd(cartId: string) {
+    return this.http.get(`${this.urlApi}/${cartId}/purchase`);
   }
 }

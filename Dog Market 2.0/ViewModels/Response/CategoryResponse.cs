@@ -7,5 +7,5 @@ public class CategoryResponse
     public int Id { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }
-    public ICollection<AddProductResponse>? CategoryProducts { get; set; }
+    public ICollection<ProductsResponses>? CategoryProducts { get; set; }
 }

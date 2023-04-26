@@ -1,18 +1,22 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Dog_Market_2._0.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+
 
 namespace Dog_Market_2._0.JwtFeatures;
 public class JwtHandler
 {
     private readonly IConfiguration _configuration;
     private readonly IConfigurationSection _jwtSettings;
-    public JwtHandler(IConfiguration configuration)
+    private readonly UserManager<User> _userManager;
+    public JwtHandler(IConfiguration configuration, UserManager<User> userManager)
     {
         _configuration = configuration;
         _jwtSettings = _configuration.GetSection("JwtSettings");
+        _userManager = userManager;
     }
     public SigningCredentials GetSigningCredentials()
     {
@@ -20,13 +24,22 @@ public class JwtHandler
         var secret = new SymmetricSecurityKey(key);
         return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
     }
-    public List<Claim> GetClaims(IdentityUser user)
+    public async Task<List<Claim>> GetClaims(User user)
     {
         var claims = new List<Claim>
         {
             new Claim(ClaimTypes.Name, user.UserName),
             new Claim(ClaimTypes.NameIdentifier, user.Id),
         };
+
+        IList<string> roles = await _userManager.GetRolesAsync(user);
+        
+        foreach (var role in roles)
+        {
+            claims.Add(new Claim(ClaimTypes.Role, role));
+        }
+        
+
         return claims;
     }
     public JwtSecurityToken GenerateTokenOptions(SigningCredentials signingCredentials, List<Claim> claims)

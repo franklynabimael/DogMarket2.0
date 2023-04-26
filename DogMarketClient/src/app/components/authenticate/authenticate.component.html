@@ -1,29 +1,38 @@
-<div class="login-container">
-  <div class="center-container">
-    <mat-card class="login-card">
-      <mat-card-title>Login</mat-card-title>
-      <mat-card-content>
-        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-          <mat-form-field>
-            <mat-label>UserName</mat-label>
-            <input matInput formControlName="username" required />
-          </mat-form-field>
-          <mat-form-field>
-            <mat-label>Password</mat-label>
-            <input
-              matInput
-              formControlName="password"
-              type="password"
-              required
-            />
-          </mat-form-field>
-          <div class="button-container">
-            <button mat-raised-button color="primary" type="submit">
-              Login
+<body>
+  <div class="LoginFormContainer">
+    <div class="LoginFormContainerLevel2">
+
+      <div class="LoginFormContainerLevel3">
+        <form [formGroup]="loginForm" novalidate autocomplete="off" class="formGroupItem">
+
+          <div class="form-control">
+          <label>UserName* </label>
+          <input matInput type="username" formControlName="username" placeholder="UserName" required  class ="form-control1">
+          <mat-error>
+            <h5 *ngIf="validateControl('username') && hasError('username', 'required')">Username is<strong> required</strong> </h5>
+
+          </mat-error>
+        </div>
+
+          <div class="form-control">
+            <label>Password*</label>
+            <input matInput placeholder="Password" formControlName="password"
+              class="form-control1" required minlength="6" maxlength="50">
+            <mat-error>
+              <h5 *ngIf="validateControl('password') && hasError('password', 'required')">Password is
+                <strong> required</strong>
+              </h5>
+              <h5 *ngIf="validateControl('password') && hasError('password', 'minlength')">Password is too short </h5>
+            </mat-error>
+          </div>
+
+          <div class="LogingButton">
+            <button mat-raised-button type="submit" class="btnLogin" (click)="loginUser(loginForm.value)">Log in
             </button>
           </div>
         </form>
-      </mat-card-content>
-    </mat-card>
+      </div>
+    </div>
   </div>
-</div>
+
+</body>

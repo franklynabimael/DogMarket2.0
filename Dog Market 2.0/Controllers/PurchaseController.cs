@@ -21,7 +21,7 @@ public class PurchaseController : ControllerBase
         _context = context;
     }
 
-    [HttpPost("carts/{cartId}/Purchase")]
+    [HttpGet("carts/{cartId}/Purchase")]
     [Authorize]
     public async Task<IActionResult> PurchaseAsync(Guid cartId)
     {

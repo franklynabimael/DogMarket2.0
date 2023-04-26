@@ -45,19 +45,20 @@ public class UsersController : ControllerBase
         var result = await _userManager.CreateAsync(user, registerDto.Password);
         if (!result.Succeeded)
             throw new Exception("Incorrect credentials");
+        await _userManager.AddToRoleAsync(user, "User");
         await _context.SaveChangesAsync();
         UserResponse userResponse = user.Adapt<UserResponse>();
         return Ok(userResponse);
     }
 
     [HttpPost("loging")] 
-    public async Task<IActionResult> Loging (LogingDto logingDto)
+    public async Task<ActionResult<LogingResponse>> Loging (LogingDto logingDto)
     {
         var user = await _userManager.FindByNameAsync(logingDto.UserName);
         if (user == null || !await _userManager.CheckPasswordAsync(user, logingDto.Password))
-            return Unauthorized(new LogingResponse { Message = "Username or password incorrect", IsAuthSuccessful = false });
+            return Unauthorized(new { message = "Username or password incorrect" });
         var signingCredentials = _jwtHandler.GetSigningCredentials();
-        var claims = _jwtHandler.GetClaims(user);
+        var claims = await _jwtHandler.GetClaims(user);
         var tokenOptions = _jwtHandler.GenerateTokenOptions(signingCredentials, claims);
         var token = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
         return Ok(new LogingResponse { IsAuthSuccessful = true, Token = token });

@@ -6,5 +6,5 @@ export interface Productresponse {
   stock: number;
   code: string;
   categoryid: number;
-  imgpath: string;
+  imgPath: string;
 }

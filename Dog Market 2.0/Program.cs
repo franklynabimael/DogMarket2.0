@@ -57,11 +57,20 @@ public static class Program
         });
 
         app.UseHttpsRedirection();
-        app.UseRouting();
+       
         app.MapControllers();
         app.UseAuthentication();
+        
+        
+        app.UseCors("AllowOrigin");
+        app.UseRouting();
+
         app.UseAuthorization();
-        app.UseCors();
+
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapControllers();
+        });
 
         using var serviceScope = app.Services.CreateScope();
         using var context = serviceScope.ServiceProvider.GetService<DogMarketContext>();
@@ -75,12 +84,10 @@ public static class Program
         var origins = builder.Configuration.GetSection(OriginsKey).Get<string[]>();
         builder.Services.AddCors(options =>
         {
-            options.AddDefaultPolicy(builder =>
-            {
-                builder.AllowAnyOrigin()
-                       .AllowAnyHeader()
-                       .AllowAnyMethod();
-            });
+            options.AddPolicy("AllowOrigin",
+            builder => builder.WithOrigins("http://localhost:4200")
+                              .AllowAnyHeader()
+                              .AllowAnyMethod());
         });
     }
 

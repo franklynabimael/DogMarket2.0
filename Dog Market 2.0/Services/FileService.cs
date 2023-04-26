@@ -10,7 +10,7 @@ public class FileService: IFileServices
     private const long ImageFileSizeLimit = 1024 * 1024 * ImageFileSizeMb;
     private static readonly string[] ImageAllowedExtensions = { ".jpg", ".jpeg", ".png", ".bmp" };
 
-    public async Task<FileResponse> FileManage(IFormFile file, string folder)
+    public async Task<FileResponse> FileManage(IFormFile file)
     {
         long FileSizeLimit; 
         string[] AllowedExtensions;
@@ -39,7 +39,7 @@ public class FileService: IFileServices
         }
         if (file.Length > 0)
         {
-            var folderName = Path.Combine("Resources", folder);
+            var folderName = Path.Combine("Resources");
             var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
             var name = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName;
             if (name != null)

@@ -4,5 +4,5 @@ namespace Dog_Market_2._0.Services;
 
 public interface IFileServices
 {
-    Task<FileResponse> FileManage(IFormFile file, string folder);
+    Task<FileResponse> FileManage(IFormFile file);
 }

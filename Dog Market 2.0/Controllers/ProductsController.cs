@@ -3,6 +3,7 @@ using Dog_Market_2._0.Models;
 using Dog_Market_2._0.ViewModels;
 using Dog_Market_2._0.ViewModels.Response;
 using Mapster;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -35,6 +36,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpPost("add")]
+    
     public async Task<IActionResult> AddProducts(AddProductDTO addProductDTO)
     {
         var product = addProductDTO.Adapt<Product>();
@@ -45,6 +47,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpDelete("{productId}")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> DeleteProduct(Guid productId)
     {
         Product product = await _context.Produts.FindAsync(productId)?? throw new ArgumentNullException(nameof(productId), "No se encontro");

@@ -1,0 +1,20 @@
+<div class="shopping-cart">
+  <h1>Shopping Cart</h1>
+  <div class="items" *ngFor="let detail of cart.cartDetails">
+    <div class="row">
+      <div class="col-md-4">
+        <img  [src]="createImgPath(detail.product.imgPath)" alt="Product" />
+        <h4>{{ detail.product.name }}</h4>
+        <p>Price: {{ detail.price | currency }}</p>
+        <p>Quantity: {{ detail.quantity }}</p>
+        <button (click)="sweetAlertDelete(detail.id)" class="btn btn-danger">
+          Remove
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="total">
+    <h3>Total: {{ total() | currency }}</h3>
+    <button (click)="sweetAlert(cart.id)" class="btn btn-primary">Checkout</button>
+  </div>
+</div>

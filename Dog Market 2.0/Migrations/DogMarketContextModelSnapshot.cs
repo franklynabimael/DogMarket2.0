@@ -39,6 +39,13 @@ namespace Dog_Market_2._0.Migrations
                         .IsUnique();
 
                     b.ToTable("Carts", "DogMarketDB");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("b22698b8-42a2-4115-9631-1c2d1e2ac5f7"),
+                            UserId = "B22698B8-42A2-4115-9631-1C2D1E2AC5F7"
+                        });
                 });
 
             modelBuilder.Entity("Dog_Market_2._0.Models.Category", b =>
@@ -232,6 +239,28 @@ namespace Dog_Market_2._0.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", "DogMarketDB");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "B22698B8-42A2-4115-9631-1C2D1E2AC5F7",
+                            AccessFailedCount = 0,
+                            Address = "tuhna",
+                            Age = 22,
+                            ConcurrencyStamp = "74fc47a5-c34c-459e-8f0b-a8112e6252a0",
+                            Email = "user@example.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            Name = "Franklyn",
+                            NormalizedEmail = "USER@EXAMPLE.COM",
+                            NormalizedUserName = "FRANKLYN",
+                            PasswordHash = "AQAAAAIAAYagAAAAECGz5xP9VR+rKHa+O7ZDb756M1VArV7s3xRynbY3X2N79TtMl5z/8W7rvJFfKNW7SQ==",
+                            PhoneNumber = "8296872544",
+                            PhoneNumberConfirmed = true,
+                            SecurityStamp = "0552019d-84d2-4f2e-9f3d-e6c2f272ecfc",
+                            TwoFactorEnabled = false,
+                            UserName = "franklyn"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -259,6 +288,20 @@ namespace Dog_Market_2._0.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", "DogMarketDB");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "2301D884-221A-4E7D-B509-0113DCC043E1",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "7D9B7113-A8F8-4035-99A7-A20DD400F6A3",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -346,6 +389,13 @@ namespace Dog_Market_2._0.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", "DogMarketDB");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "B22698B8-42A2-4115-9631-1C2D1E2AC5F7",
+                            RoleId = "2301D884-221A-4E7D-B509-0113DCC043E1"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>

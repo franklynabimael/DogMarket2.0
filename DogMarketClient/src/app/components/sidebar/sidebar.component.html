@@ -1,8 +1,27 @@
-<div class="sidebar">
-  <h2>Categorías</h2>
-  <ul>
-    <li *ngFor="let category of categories">
-      <a href="#">{{ category.name }}</a>
-    </li>
-  </ul>
+<head> </head>
+<div>
+  <div class="sidenav" [ngClass]="collapsed ? 'sidenav-collapsed' : ''">
+    <div class="logo-container">
+      <button class="logo" (click)="toggleCollapse()">
+        <img src="./assets/iconperrotp.png" />
+      </button>
+      <div class="logo-text" *ngIf="collapsed">&nbsp; Categories</div>
+      <button class="btn-close" *ngIf="collapsed" (click)="closeSidenav()">
+        <i class="fal fa-times close-icon"></i>
+      </button>
+    </div>
+    <ul class="sidenav-nav">
+      <li class="sidenav-nav-item" *ngFor="let category of categories">
+        <div class="sidenav-nav-link">
+          <span
+            class="sidenav-link-text"
+            *ngIf="collapsed"
+            (click)="categoryAccess(category.id)"
+            >{{ category.name }}</span
+          >
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div></div>
 </div>

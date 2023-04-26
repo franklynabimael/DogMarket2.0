@@ -13,10 +13,10 @@ namespace Dog_Market_2._0.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class CartsControllers : ControllerBase
+public class CartsController : ControllerBase
 {
     private readonly DogMarketContext _context;
-    public CartsControllers(DogMarketContext context)
+    public CartsController(DogMarketContext context)
     {
         _context = context;
     }
@@ -33,7 +33,7 @@ public class CartsControllers : ControllerBase
         return Ok(response);
     }
 
-    [HttpPut("{productId}")]
+    [HttpGet("{productId}/{quantity:int}")]
     [Authorize]
     public async Task<IActionResult> CartProductAsync(Guid productId, int quantity)
     {

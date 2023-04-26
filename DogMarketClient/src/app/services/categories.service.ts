@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { addcategoryDTO } from '../interfaces/addcategorydto';
 import { AddCategoryResponse } from '../interfaces/responses/addcategoryresponse';
-import { Categoriesresponse } from '../interfaces/responses/categoriesresponse';
+import { Categoryresponse } from '../interfaces/responses/categoryresponse';
 @Injectable({
   providedIn: 'root',
 })
@@ -18,7 +19,7 @@ export class CategoriesService {
     return this.http.post<AddCategoryResponse>(this.urlApi, body);
   }
 
-  getcategoriesId(body: Categoriesresponse) {
-    return this.http.get(`${this.urlApi}/{categoryid}`);
+  getcategoryId(categoryId: number): Observable<Categoryresponse> {
+    return this.http.get<Categoryresponse>(`${this.urlApi}/${categoryId}`);
   }
 }

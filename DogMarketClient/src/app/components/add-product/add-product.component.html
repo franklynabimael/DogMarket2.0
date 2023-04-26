@@ -1,0 +1,77 @@
+<form class="productForm" [formGroup]="productForm">
+  <div>
+    <h5 class="modal-title">Change Password</h5>
+  </div>
+
+  <br />
+
+  <h5 class="input-title">Nombre:</h5>
+  <div class="form-group">
+    <input class="form-control" placeholder="Nombre" formControlName="name" />
+  </div>
+
+  <h5 class="input-title">Descripcion:</h5>
+  <div class="form-group">
+    <input
+      class="form-control"
+      placeholder="Descripcion"
+      formControlName="description"
+    />
+  </div>
+
+  <br />
+  <h5 class="input-title">Precio:</h5>
+  <div class="form-group">
+    <input
+      class="form-control"
+      placeholder="Precio"
+      matInput
+      formControlName="price"
+    />
+  </div>
+
+  <br />
+  <h5 class="input-title">Codigo:</h5>
+  <div class="form-group">
+    <input
+      class="form-control"
+      placeholder="Codigo"
+      matInput
+      formControlName="code"
+    />
+  </div>
+  <br />
+  <h5 class="input-title">Cantidad:</h5>
+  <div class="form-group">
+    <input
+      class="form-control"
+      placeholder="Cantidad"
+      matInput
+      formControlName="stock"
+    />
+  </div>
+
+  <h5 class="input-title">Categoria:</h5>
+  <div class="form-group">
+    <select
+      class="form-select"
+      formControlName="categoryId"
+      aria-label="Default select example"
+      required
+    >
+      <option *ngFor="let item of categoryTable" value="{{ item.id }}">
+        {{ item.name }}
+      </option>
+    </select>
+  </div>
+
+  <app-image-manage
+    (onImageUploadFinished)="uploadImageFinished($event)"
+  ></app-image-manage>
+  <br />
+  <div class="buttons">
+    <button mat-raised-button type="submit" class="save-button"(click)="sweetAlert()" >
+      Save Product
+    </button>
+  </div>
+</form>
