@@ -4,6 +4,7 @@ using Dog_Market_2._0;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Dog_Market_2._0.Migrations
 {
     [DbContext(typeof(DogMarketContext))]
-    partial class DogMarketContextModelSnapshot : ModelSnapshot
+    [Migration("20230427234057_dataseed_category")]
+    partial class dataseed_category
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -261,17 +264,17 @@ namespace Dog_Market_2._0.Migrations
                             AccessFailedCount = 0,
                             Address = "tuhna",
                             Age = 22,
-                            ConcurrencyStamp = "dc0e7b01-b4f6-4f8b-8fd3-9e93379be683",
+                            ConcurrencyStamp = "fb67a0fa-82c6-46db-852e-071cf09f12b6",
                             Email = "user@example.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             Name = "Franklyn",
                             NormalizedEmail = "USER@EXAMPLE.COM",
                             NormalizedUserName = "FRANKLYN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEO/zscbu5+jwtW/Jj8jj8q7sG7x0015OdGsTyKo2bqyiarQvFfCxdUJjpOZ4CLpFMg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAELpvNo/8HgKyFO7fp5ihKugdSAUB/W7mvxpqsOhPEXyKLU/G6ACobVUQ7/3kCwjM0A==",
                             PhoneNumber = "8296872544",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "14312a89-ecd9-4971-86aa-2f27d82eefe6",
+                            SecurityStamp = "fd819abe-2d3a-47e1-a92a-14d224158062",
                             TwoFactorEnabled = false,
                             UserName = "franklyn"
                         });
