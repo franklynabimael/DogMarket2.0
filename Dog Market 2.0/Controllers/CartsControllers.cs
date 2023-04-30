@@ -32,7 +32,7 @@ public class CartsController : ControllerBase
         CartResponse response = cart.Adapt<CartResponse>();
         return Ok(response);
     }
-
+    
     [HttpGet("{productId}/{quantity:int}")]
     [Authorize]
     public async Task<IActionResult> CartProductAsync(Guid productId, int quantity)

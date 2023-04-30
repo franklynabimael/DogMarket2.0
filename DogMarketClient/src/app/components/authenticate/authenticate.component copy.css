@@ -1,0 +1,191 @@
+body {
+    opacity: 1;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center center;
+  min-height: 100vh;
+}
+
+.LoginFormContainer {
+
+  width: 600px;
+  height: 620px;
+  margin: 50px auto;
+  display: flex;
+  justify-content: center space-between;
+  align-items: center;
+  /* UI Properties */
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  box-shadow: 0px 20px 20px #00000052;
+  border-radius: 27px;
+  opacity: 1;
+}
+
+
+.form-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  align-content: center;
+}
+
+
+.LoginFormContainerLevel2 {
+  /* Layout Properties */
+
+  width: 553px;
+  height: 599px;
+  margin: 50px auto;
+  padding: 0px auto;
+
+  /* UI Properties */
+  opacity: 1;
+  justify-content: center space-between;
+  align-items: center;
+}
+
+.LoginFormContainerLevel3{
+/* Layout Properties */
+margin: 50px auto;
+padding: 50px auto;
+justify-content: center;
+align-items: center;
+max-width: 553px;
+height: 443px;
+/* UI Properties */
+opacity: 1;
+
+}
+
+.logoLetterLogin {
+  /* Layout Properties */
+
+  margin-top: 20px;
+  width: 553px;
+  height: 56px;
+  /* UI Properties */
+  background: transparent  0% 0% no-repeat padding-box;
+  opacity: 1;
+}
+
+form{
+/* margin: 50px auto;
+padding: 50px auto;
+opacity: 1;
+display: table-cell ;
+vertical-align: middle;
+flex-direction: column;
+justify-content: space-between; */
+
+}
+
+input{
+/* Layout Properties */
+margin: 10px auto;
+width: 100%;
+
+/* UI Properties */
+background: #FFFFFF  0% 0% no-repeat padding-box;
+border: 1px solid #D5D5D5;
+border-radius: 8px;
+opacity: 1;
+font: normal normal medium Montserrat;
+letter-spacing: 0px;
+color: #707070;
+font-size: 19px;
+padding: 28px 24px;
+}
+::placeholder {
+/* Layout Properties */
+/* UI Properties */
+font: normal normal medium 19px Montserrat;
+letter-spacing: 0px;
+color: #707070;
+opacity: 1;
+font-size: 19px;
+}
+
+.btnLogin{
+/* Layout Properties */
+width: 100%;
+height: 73px;
+
+/* UI Properties */
+background: #48A7E0 0% 0% no-repeat padding-box;
+color: white;
+border-radius: 30px;
+opacity: 1;
+font: normal normal bold  Montserrat #ffffff;
+letter-spacing: 0px;
+font-size: 20px;
+position: flex;
+}
+
+.LogingButton{
+  align-items: center;
+  justify-content: center space-between;
+  text-align: center;
+  position: flex;
+
+}
+
+a{
+text-decoration: underline;
+font: normal normal bold 16px/19px Montserrat;
+letter-spacing: 0px;
+color: #000000;
+opacity: 1;
+text-align:center;
+
+
+}
+
+.ForgotPasswordContainer{
+  align-items: center;
+  justify-content: center space-between;
+  text-align:center;
+  margin: 20px ;
+  padding: 10px ;
+}
+
+label{
+  /* UI Properties */
+text-align: left;
+font: normal normal bold 16px/19px Montserrat;
+letter-spacing: 0px;
+color: #000000;
+opacity: 1;
+}
+
+.eye{
+  position: absolute;
+  top: 50%;
+  right: 32px;
+}
+
+h5{
+  font-size: 19px;
+}
+
+.formGroupItem{
+  margin-left: 20px;
+  margin-right: 20px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+
+.form-control{
+  width: 100%;
+  position: relative;
+  border: none;
+}
+
+.form-control1{
+  width: 100%;
+  position: relative;
+}

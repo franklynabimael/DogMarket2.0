@@ -29,7 +29,7 @@ public class CategoriesController : ControllerBase
 
     [HttpGet("{categoryId}")]
     public async Task<IActionResult> GetCategory(int categoryId)
-    {
+    {   
         Category category = await _context.Categories.Include(x => x.CategoryProducts).FirstOrDefaultAsync(x => x.Id == categoryId) ?? throw new ArgumentNullException(nameof(categoryId), "No se encontro");
         CategoryResponse response = category.Adapt<CategoryResponse>();
         return Ok(response);

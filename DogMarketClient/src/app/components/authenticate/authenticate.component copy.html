@@ -1,0 +1,22 @@
+<div class="login-container">
+  <form [formGroup]="loginForm" novalidate autocomplete="off" class="login-form">
+
+    <div class="form-group">
+      <label for="username">Usuario*</label>
+      <input matInput type="text" id="username" formControlName="username" placeholder="Introduce tu usuario" required>
+      <mat-error *ngIf="validateControl('username') && hasError('username', 'required')">El usuario es obligatorio</mat-error>
+    </div>
+
+    <div class="form-group">
+      <label for="password">Contraseña*</label>
+      <input matInput type="password" id="password" formControlName="password" placeholder="Introduce tu contraseña" required minlength="6" maxlength="50">
+      <mat-error *ngIf="validateControl('password') && hasError('password', 'required')">La contraseña es obligatoria</mat-error>
+      <mat-error *ngIf="validateControl('password') && hasError('password', 'minlength')">La contraseña es demasiado corta (mínimo 6 caracteres)</mat-error>
+    </div>
+
+    <div class="login-button">
+      <button mat-raised-button color="primary" type="submit" [disabled]="!loginForm.valid">Iniciar sesión</button>
+    </div>
+
+  </form>
+</div>  
