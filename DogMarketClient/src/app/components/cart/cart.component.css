@@ -1,21 +1,21 @@
 .shopping-cart img {
-  width: 100%;
+  width: 25%;
 }
 
 .shopping-cart .items {
   border-bottom: 1px solid #ccc;
   padding-bottom: 1rem;
-  margin-bottom: 1rem; 
+  margin-bottom: 1rem;
 }
 
 .shopping-cart .total {
-  text-align: right; 
+  text-align: right;
 }
 
 .product-detail img {
-  max-width: 10rem;
-  max-height: 10rem;
-  width: 10rem;
-  height: 10rem;
+  max-width: 5rem;
+  max-height: 5rem;
+  width: 5rem;
+  height: 5rem;
   margin-left: 25%;
 }

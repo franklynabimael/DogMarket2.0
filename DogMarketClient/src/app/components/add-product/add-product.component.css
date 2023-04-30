@@ -30,8 +30,8 @@
 
 .buttons {
   display: flex;
-  align-items: flex-start;
-  flex-direction: row-reverse;
+  justify-content: flex-end;
+  width: 100%;
 }
 
 .save-button {
@@ -42,6 +42,7 @@
   background: #e64d14;
   color: white;
   font: normal normal Montserrat;
+  margin-left: auto;
 }
 
 .form-control {
@@ -74,4 +75,16 @@
   border-radius: 16px;
   opacity: 1;
   padding: 4rem 2rem 4rem 2rem;
+}
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.productForm {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }

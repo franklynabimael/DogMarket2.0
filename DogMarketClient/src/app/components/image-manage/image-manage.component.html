@@ -1,23 +1,28 @@
-<div class="row" style="margin-bottom:15px;">
+<div class="row" style="margin-bottom: 15px">
+  <div class="col-md-3">
+    <input
+      type="file"
+      #file
+      placeholder="Choose file"
+      accept="image/*"
+      (change)="onUploadFile(file.files)"
+      style="display: none"
+    />
 
-    <div class="col-md-3">
-      <input type="file" #file placeholder="Choose file" accept="image/*" (change)="onUploadFile(file.files)" style="display:none;" >
-
-      <button mat-flat-button color="accent" type="button" (click)="file.click()">Profile Picture</button>
-    </div>
-
+    <button mat-flat-button color="accent" type="button" (click)="file.click()">
+      Imagen
+    </button>
+  </div>
 
   <div class="col-md-4" *ngIf="showError; else uploading">
-    <h5 class="error-msg"> {{ errorMessage }} </h5>
+    <h5 class="error-msg">{{ errorMessage }}</h5>
   </div>
   <ng-template #uploading>
     <div class="col-md-4">
-    <div class="upload" *ngIf="progress > 0">
-      {{progress}}%
-    </div>
-    <div class="upload" *ngIf="message">
-      {{message}}
-    </div>
+      <div class="upload" *ngIf="progress > 0">{{ progress }}%</div>
+      <div class="upload" *ngIf="message">
+        {{ message }}
+      </div>
     </div>
   </ng-template>
-  </div>
+</div>

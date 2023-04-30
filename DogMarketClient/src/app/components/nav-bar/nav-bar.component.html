@@ -7,7 +7,7 @@
       class="ProfileButton"
       color="Accent"
     >
-      <span>User Options</span>
+      <span>Cuenta</span>
       <mat-icon>expand_more</mat-icon>
     </button>
   </div>
@@ -18,6 +18,17 @@
     </button>
   </mat-menu>
   <form class="form-inline my-2 my-lg-0">
+    <ul *ngIf="isUserAdmin" class="navbar-nav mr-auto mt-2 mt-lg-0">
+      <li>
+        <a
+          class="nav-link"
+          [routerLink]="['/add-products']"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          >Agregar Productos</a
+        >
+      </li>
+    </ul>
     <ul *ngIf="!isUserAuthenticated" class="navbar-nav mr-auto mt-2 mt-lg-0">
       <li class="nav-item">
         <a
@@ -30,15 +41,4 @@
       </li>
     </ul>
   </form>
-  <ul *ngIf="isUserAdmin" class="navbar-nav mr-auto mt-2 mt-lg-0">
-    <li>
-      <a
-        class="nav-link"
-        [routerLink]="['/add-products']"
-        routerLinkActive="active"
-        [routerLinkActiveOptions]="{ exact: true }"
-        >Agregar Productos</a
-      >
-    </li>
-  </ul>
 </mat-toolbar>
